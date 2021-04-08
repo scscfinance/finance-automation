@@ -35,10 +35,10 @@ app.get('/', async (req, res) => {
 app.get('/:id', async (req, res) => {
     const budgets = await parse_sheet(req.params.id)
     console.log(budgets)
-    /*
     for(entry of budgets){
         await create_entry(entry)
     }
+    /*
     */
     res.send(`   
         Hello user! 
@@ -79,6 +79,7 @@ async function create_entry(entry){
 }
 
 async function parse_sheet(sheet_id){
+    console.log(sheet_id)
 
     // Initialize the sheet - doc ID is the long id in the sheets URL
     const doc = new GoogleSpreadsheet(sheet_id);
