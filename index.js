@@ -17,17 +17,33 @@ const express = require('express')
 const app = express()
 const port = 3000
 
-app.get('/', (req, res) => {
-    parse_sheet('1nYsXA9Xl6K4yV0tHmaSUXyyvFrq9iU7TtG_tWvgoPHM').then(async function(budgets){
-        console.log(budgets)
-        for(entry of budgets){
-            await create_entry(entry)
-        }
-    });
+app.get('/', async (req, res) => {
+    const budgets = await parse_sheet('1nYsXA9Xl6K4yV0tHmaSUXyyvFrq9iU7TtG_tWvgoPHM')
+    console.log(budgets)
+    for(entry of budgets){
+        await create_entry(entry)
+    }
+
+    res.send(`   
+        Hello user! 
+        This is a private service run by Sixth College Student Council's VP Finance. 
+        Please direct questions to scsc.finance@gmail.com. Thanks! 
+    `)
 })
 
-app.get('/:id', (req, res) => {
-    parse_sheet(req.params.id).then(console.log);
+app.get('/:id', async (req, res) => {
+    const budgets = await parse_sheet(req.params.id)
+    console.log(budgets)
+    /*
+    for(entry of budgets){
+        await create_entry(entry)
+    }
+    */
+    res.send(`   
+        Hello user! 
+        This is a private service run by Sixth College Student Council's VP Finance. 
+        Please direct questions to scsc.finance@gmail.com. Thanks! 
+    `)
 })
 
 app.listen(port, () => {
