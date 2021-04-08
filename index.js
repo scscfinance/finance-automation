@@ -4,7 +4,7 @@ const creds = {private_key: process.env.PRIVATE_KEY, client_email: process.env.C
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 const express = require('express')
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 
 const indices = require('./indices.json')
 const test_entry = require('./entry.json');
