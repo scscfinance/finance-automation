@@ -1,0 +1,12 @@
+{
+    "id": 44,
+    "line_item": "SCSC",
+    "name": "Test Event",
+    "event_date": "May 9 2021",
+    "submitter_name": "Shubham Kulkarni",
+    "submitter_email": "skulkarn@ucsd.edu",
+    "advisor_name": "Jesse Rapport",
+    "advisor_email": "jrapport@ucsd.edu",
+    "date_submitted": "April 7 2021",
+    "total_expense": 80.40
+}
