@@ -1,5 +1,10 @@
+require('dotenv').config()
+const creds = {private_key: process.env.PRIVATE_KEY, client_email: process.env.CLIENT_EMAIL}
+
 const { GoogleSpreadsheet } = require('google-spreadsheet');
-const creds = require('./secrets/service_account.json');
+const express = require('express')
+const app = express()
+const port = 3000
 
 const indices = require('./indices.json')
 const test_entry = require('./entry.json');
@@ -12,10 +17,6 @@ async function init(){
     await annual_budget.useServiceAccountAuth(creds)
     await annual_budget.loadInfo()
 }
-
-const express = require('express')
-const app = express()
-const port = 3000
 
 app.get('/', async (req, res) => {
     const budgets = await parse_sheet('1nYsXA9Xl6K4yV0tHmaSUXyyvFrq9iU7TtG_tWvgoPHM')
