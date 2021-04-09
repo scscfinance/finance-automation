@@ -113,7 +113,7 @@ async function parse_sheet(sheet_id){
 
     // set the date info
     partial_budget['event_date'] = sheet.getCellByA1(template_indices.event_date).value
-    partial_budget['date_submitted'] = new Date().toDateString()
+    partial_budget['date_submitted'] = new Date().toLocaleDateString('en-US', { timeZone: 'America/Los_Angeles' })
 
     // figure out what valid line items we're splitting between
     line_items = []
