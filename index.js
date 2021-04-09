@@ -6,8 +6,10 @@ const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000
 
-const indices = require('./indices.json')
+const {annual_indices, template_indices} = require('./indices.json')
 const test_entry = require('./entry.json');
+
+const HYPERLINK = (sheet_id, text) => `=HYPERLINK("https://docs.google.com/spreadsheets/d/${sheet_id}", "${text}")`
 
 // Initialize the sheet - doc ID is the long id in the sheets URL
 const annual_budget = new GoogleSpreadsheet('1SmJMMxQ0hpVWBpl-dVw1hlJdNc11nNfQfAywEd6LG1c');
@@ -38,8 +40,6 @@ app.get('/:id', async (req, res) => {
     for(entry of budgets){
         await create_entry(entry)
     }
-    /*
-    */
     res.send(`   
         Hello user! 
         This is a private service run by Sixth College Student Council's VP Finance. 
@@ -73,8 +73,10 @@ async function create_entry(entry){
 
     // update all the cells 
     for(k in entry)
-        if(k in indices)
-            funding_sheet.getCell(idx, indices[k]).value = entry[k];
+        if(k in annual_indices)
+            funding_sheet.getCell(idx, annual_indices[k]).value = entry[k];
+
+    // save changes to the sheet
     await funding_sheet.saveUpdatedCells();
 }
 
@@ -92,31 +94,30 @@ async function parse_sheet(sheet_id){
     const sheet = doc.sheetsByTitle['PRE-Budget'];
     await sheet.loadCells();
 
-
     // make the budget object, set properties
     partial_budget = {}
 
     // set the name
-    partial_budget['name'] = sheet.getCellByA1("C3").value
+    partial_budget['name'] = sheet.getCellByA1(template_indices.name).value
 
     // set the committee
-    partial_budget['committee'] = sheet.getCellByA1("C4").value
+    partial_budget['committee'] = sheet.getCellByA1(template_indices.committee).value
 
     // set the submitter's info
-    partial_budget['submitter_name'] = sheet.getCellByA1("C5").value
-    partial_budget['submitter_email'] = sheet.getCellByA1("E5").value
+    partial_budget['submitter_name'] = sheet.getCellByA1(template_indices.submitter_name).value
+    partial_budget['submitter_email'] = sheet.getCellByA1(template_indices.submitter_email).value
 
     // set the advisor's info
-    partial_budget['advisor_name'] = sheet.getCellByA1("C6").value
-    partial_budget['advisor_email'] = sheet.getCellByA1("E6").value
+    partial_budget['advisor_name'] = sheet.getCellByA1(template_indices.advisor_name).value
+    partial_budget['advisor_email'] = sheet.getCellByA1(template_indices.advisor_email).value
 
     // set the date info
-    partial_budget['event_date'] = sheet.getCellByA1("C7").value
-    partial_budget['date_submitted'] = sheet.getCellByA1("C8").value
+    partial_budget['event_date'] = sheet.getCellByA1(template_indices.event_date).value
+    partial_budget['date_submitted'] = new Date().toDateString()
 
     // figure out what valid line items we're splitting between
     line_items = []
-    for(a1 of ["C11", "E11", "G11", "I11", "K11", "M11", "O11", "Q11"]){
+    for(a1 of template_indices.line_item_list){
         value = sheet.getCellByA1(a1).value
         if(value != null)
             line_items.push(value)
@@ -126,14 +127,14 @@ async function parse_sheet(sheet_id){
     budgets = []
 
     const line_item_count = line_items.length
-    const total_expense = sheet.getCellByA1("C10").value 
+    const total_expense = sheet.getCellByA1(template_indices.expense).value 
     for(var i = 0; i < line_item_count; i++){
         copied_partial_budget = {...partial_budget};
 
         // set the total amount
         copied_partial_budget['expense'] = total_expense / line_item_count
         copied_partial_budget['line_item'] = line_items[i];
-        copied_partial_budget['id'] = doc.spreadsheetId + '~~~~' + i;
+        copied_partial_budget['id'] = HYPERLINK(doc.spreadsheetId, `${doc.spreadsheetId}~~~~${i}`);
 
         budgets.push(copied_partial_budget);
     }

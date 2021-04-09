@@ -1,12 +1,32 @@
 {
-    "id": 0, 
-    "status": 1, 
-    "line_item": 2, 
-    "name": 3, 
-    "event_date": 4, 
-    "expense": 6, 
-    "submitter_name": 9, 
-    "submitter_email": 10, 
-    "advisor_name": 11, 
-    "advisor_email": 12 
+    "annual_indices": {
+        "id": 0, 
+        "date_submitted": 1,
+        "status": 2, 
+        "line_item": 3, 
+        "name": 4, 
+        "event_date": 5, 
+        "expense": 7, 
+        "submitter_name": 10, 
+        "submitter_email": 11, 
+        "advisor_name": 12, 
+        "advisor_email": 13 
+    },
+    "template_indices": {
+        "name": "C3",
+        "committee": "C4",
+
+        "submitter_name": "C5", 
+        "submitter_email": "E5", 
+
+        "advisor_name": "C6", 
+        "advisor_email": "E6",
+
+        "event_date": "C7", 
+        "date_submitted": "C8",
+
+        "expense": "C10",
+
+        "line_item_list": ["C11", "E11", "G11", "I11", "K11", "M11", "O11", "Q11"]
+    }
 }
