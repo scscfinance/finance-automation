@@ -64,6 +64,8 @@ async function create_entry(entry){
         cells.push(funding_sheet.getCell(i,0).value);
     }
 
+    console.log(cells)
+
     // if the budget exists, update the row for it; otherwise, make a new row
     var idx = cells.indexOf(entry['id'])
     if(idx == -1)
