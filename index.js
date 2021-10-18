@@ -67,7 +67,7 @@ async function create_entry(entry){
     console.log(cells)
 
     // if the budget exists, update the row for it; otherwise, make a new row
-    var idx = cells.indexOf(entry['id'])
+    var idx = cells.indexOf(entry['raw_id'])
     if(idx == -1)
         idx = cells.indexOf(null)
 
@@ -137,6 +137,7 @@ async function parse_sheet(sheet_id){
         copied_partial_budget['expense'] = total_expense / line_item_count
         copied_partial_budget['line_item'] = line_items[i];
         copied_partial_budget['id'] = HYPERLINK(doc.spreadsheetId, `${doc.spreadsheetId}~~~~${i}`);
+        copied_partial_budget['raw_id'] = `${doc.spreadsheetId}~~~~${i}`;
 
         budgets.push(copied_partial_budget);
     }
