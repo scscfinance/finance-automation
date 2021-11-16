@@ -21,6 +21,7 @@ async function init(){
 }
 
 app.get('/', async (req, res) => {
+    await init()
     const budgets = await parse_sheet('1nYsXA9Xl6K4yV0tHmaSUXyyvFrq9iU7TtG_tWvgoPHM')
     console.log(budgets)
     for(entry of budgets){
@@ -35,6 +36,7 @@ app.get('/', async (req, res) => {
 })
 
 app.get('/:id', async (req, res) => {
+    await init()
     const budgets = await parse_sheet(req.params.id)
     console.log(budgets)
     for(entry of budgets){
