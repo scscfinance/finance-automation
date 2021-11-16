@@ -12,7 +12,7 @@ const test_entry = require('./entry.json');
 const HYPERLINK = (sheet_id, text) => `=HYPERLINK("https://docs.google.com/spreadsheets/d/${sheet_id}", "${text}")`
 
 // Initialize the sheet - doc ID is the long id in the sheets URL
-const annual_budget = new GoogleSpreadsheet('1Mhmwl8KkVu0V7UXxCO4OM6yPfRsGwqA_3sLtEc-OGXM');
+const annual_budget = new GoogleSpreadsheet('1KpDIH_7P116MU-jJBE3A9SP5xrCkTuASGB2fM0wzBfY');
 init()
 
 async function init(){
